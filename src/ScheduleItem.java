@@ -1,3 +1,4 @@
+import javafx.scene.control.TextField;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
@@ -28,6 +29,8 @@ public class ScheduleItem {
     int box_depth = 100;
     int init_horizontal_distance = 100;
     int horizontal_distance = 215;
+    TextField textfield;
+
     Hashtable<String, Integer> time_dictionary;
     Text hour_stamp;
 
@@ -46,6 +49,10 @@ public class ScheduleItem {
        // box.setTranslateX(day);
        // box.setTranslateY(vertical_distance*hourBlock);
         hour_stamp = new Text(day*horizontal_distance+init_horizontal_distance+10,vertical_distance*hourBlock+20, hourBlock+":00");
+        textfield = new TextField();
+        textfield.setLayoutX(day*horizontal_distance+init_horizontal_distance+10);
+        textfield.setLayoutY(vertical_distance*hourBlock+30);
+        textfield.setVisible(false);
 
     }
 
@@ -63,8 +70,14 @@ public class ScheduleItem {
     }
 
 
-    //set time/date for backup/archiving purposes
 
+    void show_text_field() {
+        textfield.setVisible(true);
+    }
+
+    void hide_text_field() {
+        textfield.setVisible(false);
+    }
 
     void set_description(String new_description) {
         description = new_description;
@@ -79,6 +92,10 @@ public class ScheduleItem {
     }
 
     Rectangle get_box() { return box; }
+
+    TextField get_textfield()  {
+        return textfield;
+    }
 
     void set_item_status(boolean status) {
         completed = status;
