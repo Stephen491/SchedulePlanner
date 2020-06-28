@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
@@ -37,7 +38,8 @@ public class MainController extends Application{
         ToolBar menu;
         Rectangle[][] boxes = new Rectangle[7][24];
         Text[][] hour_stamps = new Text[7][24];
-        TextField[][] text_fields = new TextField[7][24];
+        TextField[][] name_fields = new TextField[7][24];
+        TextArea[][] description_fields = new TextArea[7][24];
         VBox root = new VBox();
         int init_horizontal_distance = 100;
         int horitzontal_distance = 150;
@@ -45,7 +47,7 @@ public class MainController extends Application{
         ScrollPane sp = new ScrollPane();
         StackPane stackpane = new StackPane();
         Group group = new Group();
-        initialize_boxes(boxes, hour_stamps ,text_fields);
+        initialize_boxes(boxes, hour_stamps ,name_fields, description_fields);
 
 
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
@@ -55,10 +57,12 @@ public class MainController extends Application{
                 System.out.println(item.get_box());
                 for(int i = 0; i<7; i++) {
                     for(int x = 0; x<24; x++) {
-                        get_schedule_item(i,x).hide_text_field();
+                        get_schedule_item(i,x).hide_name_field();
+                        get_schedule_item(i,x).hide_description_field();
                     }
                 }
-                item.show_text_field();
+                item.show_name_field();
+                item.show_description_field();
             }
 
             public ScheduleItem find_affected_item(MouseEvent e) {
@@ -80,7 +84,8 @@ public class MainController extends Application{
                 boxes[i][x].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
                 group.getChildren().add(boxes[i][x]);
                 group.getChildren().add(hour_stamps[i][x]);
-                group.getChildren().add(text_fields[i][x]);
+                group.getChildren().add(name_fields[i][x]);
+                group.getChildren().add(description_fields[i][x]);
             }
         }
 
@@ -107,14 +112,15 @@ public class MainController extends Application{
 
 
 
-    void initialize_boxes(Rectangle[][] boxes, Text[][] hour_stamps, TextField[][] text_fields) {
+    void initialize_boxes(Rectangle[][] boxes, Text[][] hour_stamps, TextField[][] name_fields, TextArea[][] description_fields) {
         Hashtable<String, Integer> time_dictionary = get_current_time();
         currentWeek = new Week(time_dictionary);
         for(int i = 0; i<7; i++) {
             for(int x = 0; x<24; x++) {
                 boxes[i][x] = get_schedule_item(i,x).get_box();
                 hour_stamps[i][x] = get_schedule_item(i,x).get_hour_stamp();
-                text_fields[i][x] = get_schedule_item(i,x).get_textfield();
+                name_fields[i][x] = get_schedule_item(i,x).get_name_field();
+                description_fields[i][x] = get_schedule_item(i,x).get_description_field();
             }
         }
     }

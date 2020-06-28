@@ -1,3 +1,4 @@
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
@@ -23,13 +24,15 @@ public class ScheduleItem {
     int hourBlock;
     boolean completed = false;
     boolean expired = false;
-    int vertical_distance = 100;
+    int vertical_distance = 175;
     int box_width = 200;
-    int box_height = 90;
-    int box_depth = 100;
+    int box_height = 150;
     int init_horizontal_distance = 100;
     int horizontal_distance = 215;
-    TextField textfield;
+    int description_field_width = 150;
+    int description_field_height = 75;
+    TextField name_field;
+    TextArea description_field;
 
     Hashtable<String, Integer> time_dictionary;
     Text hour_stamp;
@@ -49,11 +52,17 @@ public class ScheduleItem {
        // box.setTranslateX(day);
        // box.setTranslateY(vertical_distance*hourBlock);
         hour_stamp = new Text(day*horizontal_distance+init_horizontal_distance+10,vertical_distance*hourBlock+20, hourBlock+":00");
-        textfield = new TextField();
-        textfield.setLayoutX(day*horizontal_distance+init_horizontal_distance+10);
-        textfield.setLayoutY(vertical_distance*hourBlock+30);
-        textfield.setVisible(false);
+        name_field = new TextField();
+        name_field.setLayoutX(day*horizontal_distance+init_horizontal_distance+10);
+        name_field.setLayoutY(vertical_distance*hourBlock+30);
+        name_field.setVisible(false);
 
+        description_field = new TextArea();
+        description_field.setLayoutX(day*horizontal_distance+init_horizontal_distance+10);
+        description_field.setLayoutY(vertical_distance*hourBlock+60);
+        description_field.setVisible(false);
+        description_field.setPrefHeight(description_field_height);
+        description_field.setPrefWidth(description_field_width);
     }
 
     static ScheduleItem create_schedule_item(Hashtable<String, Integer> time_dictionary, int hourBlock, int day) {
@@ -65,23 +74,50 @@ public class ScheduleItem {
 
 
     }
+
+
     void set_name(String new_name) {
         name = new_name;
     }
 
 
 
-    void show_text_field() {
-        textfield.setVisible(true);
+
+
+    TextField get_name_field()  {
+
+        return name_field;
     }
 
-    void hide_text_field() {
-        textfield.setVisible(false);
+    void show_name_field() {
+        name_field.setVisible(true);
     }
+
+    void hide_name_field() {
+
+        name_field.setVisible(false);
+    }
+
+
+    TextArea get_description_field() {
+        return description_field;
+    }
+
+    void show_description_field() {
+        description_field.setVisible(true);
+    }
+
+    void hide_description_field() {
+        description_field.setVisible(false);
+    }
+
+
+
 
     void set_description(String new_description) {
         description = new_description;
     }
+
 
     String get_name() {
         return name;
@@ -93,9 +129,7 @@ public class ScheduleItem {
 
     Rectangle get_box() { return box; }
 
-    TextField get_textfield()  {
-        return textfield;
-    }
+
 
     void set_item_status(boolean status) {
         completed = status;
